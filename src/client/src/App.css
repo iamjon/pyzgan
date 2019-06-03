@@ -1,0 +1,12 @@
+body {
+    background: #f7f8f9 !important;
+    color: #3b4351;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    font-size: .8rem;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+}
+
+.section-hero {
+    padding: 1rem .5rem;
+}
