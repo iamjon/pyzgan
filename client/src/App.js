@@ -1,13 +1,12 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Form, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import getWorkersAction from './actions/WorkerActions';
-import WorkersError from './components/WorkersError';
-import WorkersFetch from './components/WorkersFetch';
-import WorkersDetails from './components/WorkersDetails';
+import RemoteControl from './components/RemoteControl';
+
 
 class App extends Component {
     constructor(props) {
@@ -28,37 +27,15 @@ class App extends Component {
         const { fetchWorkers, props } = this;
         const { workersAge, workersSalary, workersLoading, workersError, workers } = props;
         return (
-          <main role = "main" className = "container" >
-
-            <div class = "starter-template">
-            <Form>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
-                <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
-                </Form.Text>
-              </Form.Group>
-
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
-              </Form.Group>
-              <Form.Group controlId="formBasicChecbox">
-                <Form.Check type="checkbox" label="Check me out" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
-
-
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 p-0">
+                <div class="jumbotron min-vh-100 text-center m-0  d-flex flex-column justify-content-center">
+                  <RemoteControl/>
+                </div>
+              </div>
             </div>
-
-            </main>
-
-
-
+          </div>
         );
     }
 }
