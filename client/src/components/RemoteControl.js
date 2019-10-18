@@ -1,76 +1,48 @@
-import React, { Component } from 'react';
-import { InputGroup, FormControl, DropdownButton, Dropdown, Button } from 'react-bootstrap';
-import WorkersSalary from './WorkersSalary';
+import React, { Fragment, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faChevronUp, faCircle, faPowerOff, faFan, faTemperatureLow } from '@fortawesome/free-solid-svg-icons'
+import { faCircle as faRegularCircle } from '@fortawesome/free-regular-svg-icons'
 
-class RemoteControl extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { clicked: false };
-        this.showFunction = this.showFunction.bind(this);
-    }
+const RemoteControl = () => {
+    const [fan, setFan] = useState(1);
 
-    showFunction(){
-        this.setState({clicked:true});
-    }
+    const clickPower = () => {
+        console.log('clickPower')
+    };
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.hide === true) {
-            return {
-                clicked: false
-            };
+    const clickFan = () => {
+        if (fan < 4){
+            return setFan(fan + 1);
         }
-        return null;
-    }
+        return setFan(1);
+    };
 
-    render() {
-        const {showFunction, state, props} = this;
-        const { clicked } = state;
-        const { hide , workersSalary, workersAge } = props;
-
-        if (hide) {
-            return null;
-        }
-
-        return (
-          <div class="form-row">
-            <div class="form-group bg-light col-md-3 mx-auto">
-              <InputGroup className="mb-3">
-                <InputGroup.Prepend>
-                  <Button variant="outline-secondary">Up</Button>
-                </InputGroup.Prepend>
-                 <FormControl plaintext readOnly aria-describedby="basic-addon1" />
-                <InputGroup.Append>
-                  <Button variant="outline-secondary">Down</Button>
-                  <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-                </InputGroup.Append>
-              </InputGroup>
-              <InputGroup className="mb-3">
-              <InputGroup.Prepend>
-                  <Button variant="outline-secondary">Up</Button>
-                  <DropdownButton
-                      as={InputGroup.Prepend}
-                      variant="outline-secondary"
-                      title="Dropdown"
-                      id="input-group-dropdown-1"
-                    >
-                      <Dropdown.Item href="#">Action</Dropdown.Item>
-                      <Dropdown.Item href="#">Another action</Dropdown.Item>
-                      <Dropdown.Item href="#">Something else here</Dropdown.Item>
-                      <Dropdown.Item href="#">Separated link</Dropdown.Item>
-                    </DropdownButton>
-                </InputGroup.Prepend>
-
-                <InputGroup.Append>
-                  <Button variant="outline-secondary">Down</Button>
-                  <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-                </InputGroup.Append>
-              </InputGroup>
-
-
-              </div>
+    return (
+        <Fragment>
+            <div className="temperature-control">
+                <div className="kaki">
+                    20
+                </div>
+                <div id="temperature-buttons">
+                    <FontAwesomeIcon icon={faChevronUp} />
+                    <FontAwesomeIcon icon={faChevronDown} />
+                </div>
             </div>
-        );
-    }
-}
+            <div className="temperature-control">
+                <FontAwesomeIcon icon={faCircle} />
+                <FontAwesomeIcon icon={faRegularCircle} />
+                <FontAwesomeIcon icon={faRegularCircle} />
+            </div>
+            <div className="temperature-control">
+                <button className={`btn`} onClick={clickPower} >
+                    <FontAwesomeIcon icon={faPowerOff}/>
+                </button>
+                <button className={`btn fan_${fan}`} onClick={clickFan} >
+                    <FontAwesomeIcon icon={faFan}/> {fan === 4 && ` auto`}
+                </button>
+            </div>
+        </Fragment>
+    );
+};
 
 export default RemoteControl;

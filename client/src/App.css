@@ -1,12 +1,100 @@
 body {
-    background: #f7f8f9 !important;
-    color: #3b4351;
-    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
-    font-size: .8rem;
-    overflow-x: hidden;
-    text-rendering: optimizeLegibility;
+    margin:0;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
 }
 
-.section-hero {
-    padding: 1rem .5rem;
+.box {
+    width: 100px;
+    height: 100px;
 }
+
+.btn {
+    background-color: Transparent;
+    border: none;
+    padding: 2rem;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.fan_1 {
+    background: linear-gradient(to top, #1F4E79 25%, #1F4E79 0%, #1F4E79 0%, Transparent 10%);
+}
+
+.fan_2 {
+    background: linear-gradient(to top, #1F4E79 50%, #1F4E79 0%, #1F4E79 0%, Transparent 10%);
+}
+
+.fan_3 {
+    background: linear-gradient(to top  , #1F4E79 75%, #1F4E79 0%, #1F4E79 0%, Transparent 10%);
+}
+
+.fan_4 {
+    background-color: #1F4E79;
+}
+
+#root {
+    max-width: 360px;
+    width: 100%;
+    height: 640px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid black;
+}
+
+.link-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+}
+
+#main-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+}
+
+* {
+    /*border: 1px solid red; */
+}
+
+.temperature-control {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 30%;
+}
+
+#temperature-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

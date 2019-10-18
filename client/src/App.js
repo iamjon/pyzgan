@@ -1,60 +1,34 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Row, Col } from 'react-bootstrap';
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import getWorkersAction from './actions/WorkerActions';
+import React, { useState, Fragment } from 'react';
 import RemoteControl from './components/RemoteControl';
+import Schedule from './components/Schedule';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTemperatureLow } from '@fortawesome/free-solid-svg-icons'
 
-
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.fetchWorkers = this.fetchWorkers.bind(this);
-        this.state = {
-            data: [],
-        };
-    }
-
-    fetchWorkers() {
-        const { getWorkers } = this.props;
-        getWorkers();
-    }
-
-
-    render() {
-        const { fetchWorkers, props } = this;
-        const { workersAge, workersSalary, workersLoading, workersError, workers } = props;
-        return (
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12 p-0">
-                <div class="jumbotron min-vh-100 text-center m-0  d-flex flex-column justify-content-center">
-                  <RemoteControl/>
-                </div>
-              </div>
+const App = () => {
+    // viewMode is ac or schedule
+    const [viewMode, setViewMode] = useState('ac');
+    return (
+        <Fragment>
+            <div className="link-container">
+                <button onClick={() => setViewMode('ac')}>
+                    Ac
+                </button>
+                <button onClick={() => setViewMode('schedule')}>
+                    Schedule
+                </button>
             </div>
-          </div>
-        );
-    }
-}
+            <div className="link-container">
+                <FontAwesomeIcon icon={faTemperatureLow} />
+            </div>
+            <div id="main-container">
+                {viewMode === 'ac' && <RemoteControl/>}
+                {viewMode === 'schedule' && <Schedule />}
+            </div>
+            <div className="link-container"></div>
+        </Fragment>
+    );
+};
 
+export default App;
 
-
-
-
-const mapStateToProps = state => ({
-    workers: state.workers.workers,
-    workersAge: state.workers.workersAge,
-    workersSalary: state.workers.workersSalary,
-    workersLoading: state.workers.workersLoading,
-    workersError: state.workers.workersError,
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-    getWorkers: getWorkersAction
-}, dispatch);
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
