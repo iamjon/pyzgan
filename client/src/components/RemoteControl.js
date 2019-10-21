@@ -1,13 +1,19 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp, faCircle, faPowerOff, faFan, faTemperatureLow } from '@fortawesome/free-solid-svg-icons'
 import { faCircle as faRegularCircle } from '@fortawesome/free-regular-svg-icons'
+import RemoteControlMode from './RemoteControlMode';
+import { setTemperature } from '../api';
 
 const RemoteControl = () => {
+    const [power, setPower] = useState(false);
+    const [temp, setTemp] = useState(20);
     const [fan, setFan] = useState(1);
+    // cool heat fan
+    const [mode, setMode] = useState('cool');
 
     const clickPower = () => {
-        console.log('clickPower')
+        return setPower(!power);
     };
 
     const clickFan = () => {
@@ -17,28 +23,42 @@ const RemoteControl = () => {
         return setFan(1);
     };
 
+    useEffect(() => {
+        console.log('useEffect');
+        setTemperature({temp, fan, mode, power})
+    }, [temp, fan, mode, power]);
+
+    const clickTemp = (direction) => {
+        if (direction === 'up'){
+           return setTemp(temp + 1);
+        }
+        return setTemp(temp - 1);
+    };
+
     return (
         <Fragment>
             <div className="temperature-control">
-                <div className="kaki">
-                    20
+                <div>
+                    {temp}
                 </div>
                 <div id="temperature-buttons">
-                    <FontAwesomeIcon icon={faChevronUp} />
-                    <FontAwesomeIcon icon={faChevronDown} />
+                    <button className={`btn tight`} onClick={() => clickTemp('up')} >
+                        <FontAwesomeIcon icon={faChevronUp} />
+                    </button>
+                    <button className={`btn tight`} onClick={() => clickTemp('down')} >
+                        <FontAwesomeIcon icon={faChevronDown} />
+                    </button>
                 </div>
             </div>
             <div className="temperature-control">
-                <FontAwesomeIcon icon={faCircle} />
-                <FontAwesomeIcon icon={faRegularCircle} />
-                <FontAwesomeIcon icon={faRegularCircle} />
+                <RemoteControlMode mode={mode} click={setMode}/>
             </div>
             <div className="temperature-control">
                 <button className={`btn`} onClick={clickPower} >
                     <FontAwesomeIcon icon={faPowerOff}/>
                 </button>
                 <button className={`btn fan_${fan}`} onClick={clickFan} >
-                    <FontAwesomeIcon icon={faFan}/> {fan === 4 && ` auto`}
+                    <FontAwesomeIcon icon={faFan}/> {fan === 4 && <span>auto</span>}
                 </button>
             </div>
         </Fragment>

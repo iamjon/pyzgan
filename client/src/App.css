@@ -1,4 +1,5 @@
 body {
+    font-size:35px;
     margin:0;
     display: flex;
     flex-direction: row;
@@ -21,6 +22,10 @@ body {
     cursor: pointer;
 }
 
+.tight {
+    padding: 1rem;
+}
+
 .fan_1 {
     background: linear-gradient(to top, #1F4E79 25%, #1F4E79 0%, #1F4E79 0%, Transparent 10%);
 }
@@ -35,6 +40,11 @@ body {
 
 .fan_4 {
     background-color: #1F4E79;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    padding: 2rem 1rem;
 }
 
 #root {
