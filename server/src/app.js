@@ -12,20 +12,36 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-
-
-
-
-
-
-
 app.get('/get-status', (req, res) => {
-
-    return res.send('Hello World!')
+    fs.readFile("remoteState.json", function (err, data) {
+        if(err) {
+            callback(err);
+            return;
+        }
+        try {
+            return res.json(JSON.parse(data))
+        } catch(exception) {
+            callback(exception);
+        }
+    });
 });
 
-app.post('/set-temp', (req, res) => {
+app.get('/get-sched', (req, res) => {
+    fs.readFile("remoteSchedule.json", function (err, data) {
+        if(err) {
+            callback(err);
+            return;
+        }
+        try {
+            return res.json(JSON.parse(data))
+        } catch(exception) {
+            callback(exception);
+        }
+    });
+});
 
+
+app.post('/set-temp', (req, res) => {
     fs.writeFile("remoteState.json", JSON.stringify(req.body), 'utf8', (err) => {
         if (err) {
             console.log("An error occured while writing JSON Object to File.");
@@ -34,8 +50,20 @@ app.post('/set-temp', (req, res) => {
 
         console.log("JSON file has been saved.");
     });
+    return res.json({ok:true})
+});
 
-    return res.send('Hello World!')
+
+app.post('/set-sched', (req, res) => {
+    fs.writeFile("remoteSchedule.json", JSON.stringify(req.body), 'utf8', (err) => {
+        if (err) {
+            console.log("An error occured while writing JSON Object to File.");
+            return console.log(err);
+        }
+
+        console.log("JSON file has been saved.");
+    });
+    return res.json({ok:true})
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -1,16 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp, faCircle, faPowerOff, faFan, faTemperatureLow } from '@fortawesome/free-solid-svg-icons'
-import { faCircle as faRegularCircle } from '@fortawesome/free-regular-svg-icons'
+import { faChevronDown, faChevronUp, faPowerOff, faFan } from '@fortawesome/free-solid-svg-icons'
 import RemoteControlMode from './RemoteControlMode';
 import { setTemperature } from '../api';
 
-const RemoteControl = () => {
-    const [power, setPower] = useState(false);
-    const [temp, setTemp] = useState(20);
-    const [fan, setFan] = useState(1);
+const RemoteControl = ({power:dpower, temp:dtemp, fan:dfan, mode:dmode}) => {
+    const [power, setPower] = useState(dpower);
+    const [temp, setTemp] = useState(dtemp);
+    const [fan, setFan] = useState(dfan);
     // cool heat fan
-    const [mode, setMode] = useState('cool');
+    const [mode, setMode] = useState(dmode);
 
     const clickPower = () => {
         return setPower(!power);
@@ -23,17 +22,17 @@ const RemoteControl = () => {
         return setFan(1);
     };
 
-    useEffect(() => {
-        console.log('useEffect');
-        setTemperature({temp, fan, mode, power})
-    }, [temp, fan, mode, power]);
-
     const clickTemp = (direction) => {
         if (direction === 'up'){
-           return setTemp(temp + 1);
+            return setTemp(temp + 1);
         }
         return setTemp(temp - 1);
     };
+
+    useEffect(() => {
+        setTemperature({temp, fan, mode, power})
+    }, [temp, fan, mode, power]);
+
 
     return (
         <Fragment>

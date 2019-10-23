@@ -1,13 +1,35 @@
 import './App.css';
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import RemoteControl from './components/RemoteControl';
 import Schedule from './components/Schedule';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTemperatureLow, faHome, faCalendar } from '@fortawesome/free-solid-svg-icons'
+import { getRemoteControlSchedule, getRemoteControlStatus } from './api';
+import { isEmpty } from './helpers';
 
 const App = () => {
     // viewMode is ac or schedule
-    const [viewMode, setViewMode] = useState('ac');
+    const [viewMode, setViewMode] = useState('schedule');
+    const [remoteStatus, setRemoteStatus] = useState({});
+    const [remoteSchedule, setRemoteSchedule] = useState({});
+
+    useEffect(() => {
+        getRemoteControlStatus().then(status => {
+            setRemoteStatus(status);
+        });
+        getRemoteControlSchedule().then(schedule => {
+            setRemoteSchedule(schedule);
+        });
+    }, []);
+
+    if (isEmpty(remoteStatus) || isEmpty(remoteSchedule)){
+        return <div>TODO Add Loader</div>
+    }
+
+    const scheduleProps = {
+        remoteStatus
+    };
+
     return (
         <Fragment>
             <div className="link-container">
@@ -18,12 +40,14 @@ const App = () => {
                     <FontAwesomeIcon icon={faCalendar} />  Schedule
                 </button>
             </div>
-            <div className="link-container">
-                <FontAwesomeIcon icon={faTemperatureLow} />
-            </div>
-            <div id="main-container">
-                {viewMode === 'ac' && <RemoteControl/>}
-                {viewMode === 'schedule' && <Schedule />}
+            {viewMode === 'ac' &&
+                <div className="link-container">
+                    <FontAwesomeIcon icon={faTemperatureLow} />
+                </div>
+            }
+            <div id="main-container" className={viewMode}>
+                {viewMode === 'ac' && <RemoteControl {...remoteStatus} />}
+                {viewMode === 'schedule' && <Schedule {...remoteSchedule} {...scheduleProps} />}
             </div>
             <div className="link-container"></div>
         </Fragment>

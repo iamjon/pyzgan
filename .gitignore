@@ -2,4 +2,5 @@ client/node_modules
 server/node_modules
 .idea
 remoteState.json
+remoteSchedule.json
 client/.env

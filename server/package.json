@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "In Between Mazagan and Web",
   "main": "app.js",
   "scripts": {
     "start": "node src/app.js",
