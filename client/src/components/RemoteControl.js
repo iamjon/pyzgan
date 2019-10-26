@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp, faPowerOff, faFan } from '@fortawesome/free-solid-svg-icons'
+import { faPowerOff, faFan } from '@fortawesome/free-solid-svg-icons'
 import RemoteControlMode from './RemoteControlMode';
 import { setTemperature } from '../api';
+import TempControl from './TempControl';
 
 const RemoteControl = ({power:dpower, temp:dtemp, fan:dfan, mode:dmode}) => {
     const [power, setPower] = useState(dpower);
@@ -36,22 +37,8 @@ const RemoteControl = ({power:dpower, temp:dtemp, fan:dfan, mode:dmode}) => {
 
     return (
         <Fragment>
-            <div className="temperature-control">
-                <div>
-                    {temp}
-                </div>
-                <div id="temperature-buttons">
-                    <button className={`btn tight`} onClick={() => clickTemp('up')} >
-                        <FontAwesomeIcon icon={faChevronUp} />
-                    </button>
-                    <button className={`btn tight`} onClick={() => clickTemp('down')} >
-                        <FontAwesomeIcon icon={faChevronDown} />
-                    </button>
-                </div>
-            </div>
-            <div className="temperature-control">
-                <RemoteControlMode mode={mode} click={setMode}/>
-            </div>
+            <TempControl clickTemp={clickTemp} temp={temp} />
+            <RemoteControlMode mode={mode} click={setMode}/>
             <div className="temperature-control">
                 <button className={`btn`} onClick={clickPower} >
                     <FontAwesomeIcon icon={faPowerOff}/>

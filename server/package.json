@@ -14,5 +14,9 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
+  },
+  "nodemonConfig": {
+    "ignore": ["remoteSchedule.json", "remoteSchedule.json"],
+    "delay": "2500"
   }
 }

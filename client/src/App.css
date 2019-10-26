@@ -1,4 +1,14 @@
+* {
+    /*border: 1px solid red; */
+}
+
+:root {
+    --pyzgan-blue: #1385e5;
+}
+
+
 body {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size:35px;
     margin:0;
     display: flex;
@@ -30,20 +40,24 @@ body {
     padding: 0;
 }
 
+.mode-control .btn {
+    font-size: 35px;
+}
+
 .fan_1 {
-    background: linear-gradient(to top, #1F4E79 25%, #1F4E79 0%, #1F4E79 0%, Transparent 10%);
+    background: linear-gradient(to top, var(--pyzgan-blue) 25%, var(--pyzgan-blue) 0%, var(--pyzgan-blue) 0%, Transparent 10%);
 }
 
 .fan_2 {
-    background: linear-gradient(to top, #1F4E79 50%, #1F4E79 0%, #1F4E79 0%, Transparent 10%);
+    background: linear-gradient(to top, var(--pyzgan-blue) 50%, var(--pyzgan-blue) 0%, var(--pyzgan-blue) 0%, Transparent 10%);
 }
 
 .fan_3 {
-    background: linear-gradient(to top  , #1F4E79 75%, #1F4E79 0%, #1F4E79 0%, Transparent 10%);
+    background: linear-gradient(to top  , var(--pyzgan-blue) 75%, var(--pyzgan-blue) 0%, var(--pyzgan-blue) 0%, Transparent 10%);
 }
 
 .fan_4 {
-    background-color: #1F4E79;
+    background-color: var(--pyzgan-blue);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -51,9 +65,14 @@ body {
     padding: 2rem 1rem;
 }
 
-#root {
+.custom-pop-content,
+.width-block {
     max-width: 360px;
-    width: 100%;
+    width: 100% !important;
+}
+
+#root {
+
     height: 640px;
     display: flex;
     flex-direction: column;
@@ -80,10 +99,6 @@ body {
     justify-content: flex-start;
 }
 
-* {
-    /*border: 1px solid red; */
-}
-
 .temperature-control {
     display: flex;
     flex-direction: row;
@@ -98,12 +113,11 @@ body {
     justify-content: space-between;
 }
 
-
+.schedule {
+    overflow: scroll;
+}
 
 .schedule-table {
-    width: 100%;
-    display: table;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     border-spacing: 0;
     border-collapse: collapse;
 }
@@ -112,7 +126,7 @@ body {
     display: table-header-group;
 }
 
-.schedule-table tr {
+.schedule-table tr.sched-row {
     color: inherit;
     height: 56px;
     display: table-row;
@@ -120,50 +134,83 @@ body {
     vertical-align: middle;
 }
 
-.schedule-table td,
+.schedule-table td.sched-cell,
 .schedule-table th {
-    padding: 0 12px;
     font-size: 0.75rem;
     font-weight: 500;
     display: table-cell;
     text-align: left;
-    border-bottom: 1px solid rgba(224, 224, 224, 1);
+    border-bottom: 1px solid gainsboro;
     vertical-align: inherit;
+    padding: 0.5rem;
 }
 
-.schedule-table td,
+.schedule-table td.sched-cell,
 .schedule-table th,
 .schedule-table button {
     color: slategray;
 }
 
+.schedule-table th:nth-child(2),
+.schedule-table th:nth-child(3),
+td.sched-cell:nth-child(2),
+td.sched-cell:nth-child(3) {
+    width: 8rem;
+}
 
-.schedule-table input {
-    width:120px;
+
+.schedule-table button.date-close {
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+    background-color: var(--pyzgan-blue);
+    padding: 12px 0;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 3px;
+}
+
+.schedule-table button.date-close.tight {
+    font-size: 11px;
+    margin: 0;
+    padding: 0 0;
+}
+
+.schedule .title {
+    color: black;
+    font-size: 1.3125rem;
+    font-weight: 500;
+    line-height: 1.16667em;
 }
 
 .command-popper {
     position: absolute;
     top: 0px;
     left: 0px;
-    background-color: red;
     width: 100px;
     height: 100px;
 }
 
-
-.command-papa {
-    position:relative;
+.command-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+.command-container .temperature-control {
+    width:100%;
+}
 
+.command-container .temperature-control.mode-control .btn {
+    font-size: 20px;
+}
 
+.modal {
+    font-size: 12px;
+}
 
-
-
-
-
-
-
-
-
+.modal > .content {
+    width: 95%;
+    padding: 10px 5px;
+}

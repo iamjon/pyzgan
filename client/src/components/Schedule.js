@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckSquare, faSquare,  } from '@fortawesome/free-regular-svg-icons'
 import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import OneTimeRow from './OneTimeRow';
-import { isEmpty } from '../helpers';
+import SchedRow from './SchedRow';
+import { isEmpty } from '../helpers/helpers';
+import { setSchedule } from '../api';
 
 const Schedule = ({ oneTime: iOneTime, scheduled: iScheduled }) => {
+    const [fireSync, setFireSync] = useState(false);
     const [oneTime, setOneTime] = useState([]);
     const [oneTimeSelected, setOneTimeSelected] = useState({});
     const [scheduledSelected, setScheduledSelected] = useState({});
@@ -66,6 +68,16 @@ const Schedule = ({ oneTime: iOneTime, scheduled: iScheduled }) => {
         }
     };
 
+    const setItem = (which, event, index) => {
+        const objectSet = (which === 'oneTime') ? setOneTime : setScheduled;
+        const target = (which === 'oneTime') ? [...oneTime] : [...scheduled];
+        target[index] = event;
+        objectSet(target);
+        if (!fireSync){
+            setFireSync(true);
+        }
+    };
+
     const selectItem = (which, index, all) => {
         if (all) {
             return (which === 'oneTime') ? setOneTimeSelected({all:true}) : setScheduledSelected({all:true});
@@ -91,10 +103,18 @@ const Schedule = ({ oneTime: iOneTime, scheduled: iScheduled }) => {
         setScheduled(iScheduled);
     }, [iOneTime, iScheduled]);
 
+    useEffect(() => {
+        if (fireSync){
+            setSchedule({oneTime, scheduled});
+        }
+
+    }, [oneTime, scheduled, fireSync]);
+
+
     return (
         <div className="schedule">
             <div>
-                Add one time event
+                <span className="title">One Time Event</span>
                 <table className="schedule-table">
                     <thead>
                     <tr>
@@ -112,9 +132,11 @@ const Schedule = ({ oneTime: iOneTime, scheduled: iScheduled }) => {
                         </th>
                         <th scope="col">
                             <div className="action-buttons">
+                                {isEmpty(oneTimeSelected) && (
                                 <button className={`btn vtight`} onClick={() => addItem('oneTime')} >
                                     <FontAwesomeIcon icon={faPlus} />
                                 </button>
+                                )}
                                 {!isEmpty(oneTimeSelected) && (
                                     <button disabled={oneTime.length === 0} className={`btn vtight`} onClick={() => killSelected('oneTime')} >
                                         <FontAwesomeIcon icon={faTrash} />
@@ -125,26 +147,31 @@ const Schedule = ({ oneTime: iOneTime, scheduled: iScheduled }) => {
                     </tr>
                     </thead>
                     <tbody>
-                    { oneTime.map((event, index) =>  {
+                    {oneTime.map((event, index) =>  {
                         const eventParams = {
                             selectItem,
                             index,
                             key: index,
                             killItem,
                             selected: oneTimeSelected.all || oneTimeSelected[index],
+                            setItem,
+                            which: 'oneTime',
                         };
-                        return (<OneTimeRow {...eventParams} {...event} />)
+                        return (<SchedRow {...eventParams} {...event} />)
                     }) }
                     </tbody>
                 </table>
             </div>
             <div>
-                Add Repeating Event
+                <span className="title">Repeating Event</span>
                 <table className="schedule-table">
                     <thead>
                     <tr>
                         <th scope="col">
-                            <FontAwesomeIcon icon={faSquare} />
+                            <button disabled={scheduled.length === 0} className={`btn vtight`} onClick={() => selectItem('sched', null, !scheduledSelected.all)} >
+                                {scheduledSelected.all && <FontAwesomeIcon icon={faCheckSquare} />}
+                                {!scheduledSelected.all && <FontAwesomeIcon icon={faSquare} />}
+                            </button>
                         </th>
                         <th scope="col">
                             Date
@@ -153,14 +180,32 @@ const Schedule = ({ oneTime: iOneTime, scheduled: iScheduled }) => {
                             Command
                         </th>
                         <th>
-                            <button className={`btn vtight`} onClick={() => addItem('sched')} >
-                                <FontAwesomeIcon icon={faPlus} />
-                            </button>
+                            {isEmpty(scheduledSelected) && (
+                                <button className={`btn vtight`} onClick={() => addItem('sched')} >
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </button>
+                            )}
+                            {!isEmpty(scheduledSelected) && (
+                                <button disabled={scheduled.length === 0} className={`btn vtight`} onClick={() => killSelected('sched')} >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                            )}
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    { scheduled.map((event, index) =>  <OneTimeRow key={index} {...event} {...index}/>)}
+                    {scheduled.map((event, index) =>  {
+                        const eventParams = {
+                            selectItem,
+                            index,
+                            key: index,
+                            killItem,
+                            selected: scheduledSelected.all || scheduledSelected[index],
+                            setItem,
+                            which: 'scheduled',
+                        };
+                        return (<SchedRow {...eventParams} {...event} />)
+                    }) }
                     </tbody>
                 </table>
             </div>

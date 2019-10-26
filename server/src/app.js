@@ -12,6 +12,11 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+app.use((error, req, res, next) => {
+    console.log("received from "+req.get("X-Forwarded-For")+" : "+req.method+" "+req.originalUrl+" (Authorization: "+req.get("Authorization")+")");
+    next();
+});
+
 app.get('/get-status', (req, res) => {
     fs.readFile("remoteState.json", function (err, data) {
         if(err) {
@@ -40,7 +45,6 @@ app.get('/get-sched', (req, res) => {
     });
 });
 
-
 app.post('/set-temp', (req, res) => {
     fs.writeFile("remoteState.json", JSON.stringify(req.body), 'utf8', (err) => {
         if (err) {
@@ -52,7 +56,6 @@ app.post('/set-temp', (req, res) => {
     });
     return res.json({ok:true})
 });
-
 
 app.post('/set-sched', (req, res) => {
     fs.writeFile("remoteSchedule.json", JSON.stringify(req.body), 'utf8', (err) => {

@@ -10,8 +10,21 @@ export function setTemperature(data) {
         body:  JSON.stringify(data),
     };
 
-
     return fetch(`${url}/set-temp`, fetchData)
+        .then(response => response.json())
+        .then(res => res);
+}
+
+export function setSchedule(data) {
+    const fetchData = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body:  JSON.stringify(data),
+    };
+
+    return fetch(`${url}/set-sched`, fetchData)
         .then(response => response.json())
         .then(res => res);
 }

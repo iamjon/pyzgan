@@ -6,11 +6,11 @@ import { faCircle as faRegularCircle } from '@fortawesome/free-regular-svg-icons
 const RemoteControlMode = (props) => {
     const { mode, click } = props;
     const coolColor = '#9EEFFB';
-    const fanColor = '#F8F9E0';
+    const fanColor = '#EFF99D';
     const heatColor = '#FF797F';
 
     return (
-        <div className="temperature-control">
+        <div className="temperature-control mode-control">
             <button className={`btn tight`} onClick={() => click('cool')}>
                 {mode === 'cool' && (
                     <span className="fa-layers fa-fw">
@@ -23,7 +23,6 @@ const RemoteControlMode = (props) => {
                 {mode !== 'cool' && (
                     <FontAwesomeIcon icon={faCircle} color={coolColor} />
                 )}
-
             </button>
             <button className={`btn tight`} onClick={() => click('heat')}>
                 {mode === 'heat' && (
@@ -51,7 +50,6 @@ const RemoteControlMode = (props) => {
                 )}
             </button>
         </div>
-
     );
 };
 
