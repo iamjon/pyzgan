@@ -32,7 +32,7 @@ const runCommand = (command) => {
     const cmdn = cp.spawnSync(cmd, ['-l', '/usr'], { encoding : 'utf8' });
     // uncomment the following if you want to see everything returned by the spawnSync command
     // console.log('ls: ' , ls);
-    console.log('stdout here: \n' + ls.stdout);
+    console.log('stdout here: \n' + cmdn.stdout);
     console.log('command', command);
 };
 
