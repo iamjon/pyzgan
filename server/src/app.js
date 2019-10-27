@@ -31,7 +31,7 @@ const runCommand = (command) => {
     const cmd = `sudo ${electraPath} 2 COOL 25 OFF SWING_OFF`;
     const cmdn = cp.spawnSync(cmd, ['-l', '/usr'], { encoding : 'utf8' });
     // uncomment the following if you want to see everything returned by the spawnSync command
-    // console.log('ls: ' , ls);
+    console.log('cmdn: ' , cmdn);
     console.log('stdout here: \n' + cmdn.stdout);
     console.log('command', command);
 };
