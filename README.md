@@ -21,7 +21,12 @@ Installation:
     * `REACT_APP_API_URL=http://your_pi_ip:server_port`
     * `PORT=client_port`
 * cd client/ && npm install
-* cd .. && cd server/ && npm install
+* cd .. && cd server 
+    * npm install
+    * nano remoteSchedule.json
+        * `{}`
+    * nano remoteState.json
+         * `{}`
     
     
     
