@@ -5,6 +5,8 @@ const cors = require('cors');
 const schedule = require('node-schedule');
 const fs = require('fs');
 const dotenv = require('dotenv');
+const cp = require('child_process');
+
 dotenv.config();
 
 const jobs = [];
@@ -25,6 +27,12 @@ const readSched = async () => {
 };
 
 const runCommand = (command) => {
+    const electraPath = process.env.PATH_TO_ELECTRA;
+    const cmd = `sudo ${electraPath} 2 COOL 25 OFF SWING_OFF`;
+    const cmdn = cp.spawnSync(cmd, ['-l', '/usr'], { encoding : 'utf8' });
+    // uncomment the following if you want to see everything returned by the spawnSync command
+    // console.log('ls: ' , ls);
+    console.log('stdout here: \n' + ls.stdout);
     console.log('command', command);
 };
 
