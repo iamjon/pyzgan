@@ -24,9 +24,9 @@ Installation:
 * cd .. && cd server 
     * npm install
     * nano remoteSchedule.json
-        * `{}`
+        * `{"oneTime":[],"scheduled":[]}`
     * nano remoteState.json
-         * `{}`
+         * `{"temp":21,"fan":1,"mode":"heat","power":true}`
     
     
     
