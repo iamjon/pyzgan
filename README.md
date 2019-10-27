@@ -14,7 +14,15 @@ Installation:
 * ssh into your pi
 * Clone pyzgan
 * cd pyzgan 
+* nano server/.env
+    * `PORT=server_port`
 * nano client/.env
+    * `REACT_APP_API_URL=http://your_pi_ip:server_port`
+    * `PORT=client_port`
+    
+    
+    
+    
 
 The inspiration:
 https://github.com/nryhbhue/Electra-AC-Remote

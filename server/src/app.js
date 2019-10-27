@@ -3,12 +3,12 @@ const bodyParser = require('body-parser');
 const { promisify } = require('util');
 const cors = require('cors');
 const schedule = require('node-schedule');
-// file system module to perform file operations
 const fs = require('fs');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const jobs = [];
-
-const port = 3040;
+const port = process.env.PORT;
 const app = express();
 
 const saveSched = async (data) => {
