@@ -4,3 +4,4 @@ server/node_modules
 remoteState.json
 remoteSchedule.json
 client/.env
+server/.env
