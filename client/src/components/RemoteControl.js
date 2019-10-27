@@ -11,12 +11,21 @@ const RemoteControl = ({power:dpower, temp:dtemp, fan:dfan, mode:dmode}) => {
     const [fan, setFan] = useState(dfan);
     // cool heat fan
     const [mode, setMode] = useState(dmode);
+    const [fireSync, setFireSync] = useState(false);
+
+    const allowFire = () => {
+        if (!fireSync){
+            setFireSync(true);
+        }
+    };
 
     const clickPower = () => {
+        allowFire();
         return setPower(!power);
     };
 
     const clickFan = () => {
+        allowFire();
         if (fan < 4){
             return setFan(fan + 1);
         }
@@ -24,6 +33,7 @@ const RemoteControl = ({power:dpower, temp:dtemp, fan:dfan, mode:dmode}) => {
     };
 
     const clickTemp = (direction) => {
+        allowFire();
         if (direction === 'up'){
             return setTemp(temp + 1);
         }
@@ -31,8 +41,10 @@ const RemoteControl = ({power:dpower, temp:dtemp, fan:dfan, mode:dmode}) => {
     };
 
     useEffect(() => {
-        setTemperature({temp, fan, mode, power})
-    }, [temp, fan, mode, power]);
+        if (fireSync){
+            setTemperature({temp, fan, mode, power})
+        }
+    }, [temp, fan, mode, power, fireSync]);
 
 
     return (

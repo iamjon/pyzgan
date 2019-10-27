@@ -10,13 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-schedule": "^1.3.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
   },
   "nodemonConfig": {
-    "ignore": ["remoteSchedule.json", "remoteSchedule.json"],
+    "ignore": [
+      "remoteSchedule.json",
+      "remoteSchedule.json"
+    ],
     "delay": "2500"
   }
 }

@@ -1,11 +1,71 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { promisify } = require('util');
 const cors = require('cors');
+const schedule = require('node-schedule');
 // file system module to perform file operations
 const fs = require('fs');
 
+const jobs = [];
+
 const port = 3040;
 const app = express();
+
+const saveSched = async (data) => {
+    const writeFile = promisify(fs.writeFile);
+    await writeFile('remoteSchedule.json', data);
+    return true;
+};
+
+const readSched = async () => {
+    const readFile = promisify(fs.readFile);
+    const jsonString = await readFile("remoteSchedule.json", 'utf8');
+    const jobObject = JSON.parse(jsonString);
+    return jobObject;
+};
+
+const runCommand = (command) => {
+    console.log('command', command);
+};
+
+const schedJob = async (d, job) => {
+    runCommand(job.command);
+};
+
+const oneTimeJob = async (d, job, index) => {
+    const jobObject = await readSched();
+    const { oneTime = [] } = jobObject;
+
+    runCommand(job.command);
+
+    if (oneTime[index]) {
+        oneTime.splice(index, 1);
+        saveSched(JSON.stringify(jobObject));
+    }
+};
+
+const setJobs = async () => {
+    const { oneTime = [], scheduled = [] } = await readSched();
+
+    if (jobs.length > 0){
+        jobs.forEach(job => job.cancel());
+    }
+
+    if (oneTime.length > 0) {
+        oneTime.forEach((job, index) => {
+            jobs.push(schedule.scheduleJob(job.date, (d) => oneTimeJob(d, job, index)));
+        })
+    }
+
+    if (scheduled.length > 0) {
+        scheduled.forEach((job) => {
+            jobs.push(schedule.scheduleJob(job.when, (d) => schedJob(d, job)));
+        })
+    }
+
+    console.log("Jobs set");
+};
+
 
 // parse application/json
 app.use(bodyParser.json());
@@ -32,41 +92,36 @@ app.get('/get-status', (req, res) => {
 });
 
 app.get('/get-sched', (req, res) => {
-    fs.readFile("remoteSchedule.json", function (err, data) {
-        if(err) {
-            callback(err);
-            return;
-        }
-        try {
-            return res.json(JSON.parse(data))
-        } catch(exception) {
-            callback(exception);
-        }
+    return readSched().then((jsonObject) => {
+        return res.json(jsonObject);
     });
 });
 
 app.post('/set-temp', (req, res) => {
-    fs.writeFile("remoteState.json", JSON.stringify(req.body), 'utf8', (err) => {
+    const command = JSON.stringify(req.body);
+    runCommand(req.body);
+
+    fs.writeFile("remoteState.json",command, 'utf8', (err) => {
         if (err) {
             console.log("An error occured while writing JSON Object to File.");
             return console.log(err);
         }
 
-        console.log("JSON file has been saved.");
+        console.log("temperature has been set");
     });
     return res.json({ok:true})
 });
 
 app.post('/set-sched', (req, res) => {
-    fs.writeFile("remoteSchedule.json", JSON.stringify(req.body), 'utf8', (err) => {
-        if (err) {
-            console.log("An error occured while writing JSON Object to File.");
-            return console.log(err);
-        }
-
-        console.log("JSON file has been saved.");
+    return saveSched(JSON.stringify(req.body)).then(() => {
+        console.log("Schedule has been saved");
+        setJobs();
+        console.log("Schedule has been updated");
+        return res.json({ok:true});
     });
-    return res.json({ok:true})
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}!`);
+    setJobs();
+});

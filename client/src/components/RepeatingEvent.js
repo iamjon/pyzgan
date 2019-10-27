@@ -6,15 +6,11 @@ import { TimePicker } from 'react-input-moment';
 
 const RepeatingEvent = ({command, when, sync, onClose}) => {
     const [time, setTime] = useState(moment());
-    const [day, setDay] = useState('');
+    const [day, setDay] = useState(0);
 
     const setAll = () => {
-        const vals =[
-            {key:'day', value: day},
-            {key:'time',value:{ hour:time.hour(), minute:time.minute()} },
-        ];
-
-        sync(vals);
+        console.log('day', day);
+        sync({hour: time.hour(), minute: time.minute(), dayOfWeek: Number(day)});
         onClose();
     };
 
@@ -23,7 +19,7 @@ const RepeatingEvent = ({command, when, sync, onClose}) => {
             <div className="command-item">
                 <div className="form-group">
                     <select onChange={(e) => setDay(e.target.value)} className="form-control">
-                        {moment.weekdays().map((day, index) => (<option key={index} value={day}>{day}</option>))}
+                        {moment.weekdays().map((day, index) => (<option key={index} value={index}>{day}</option>))}
                     </select>
                 </div>
             </div>

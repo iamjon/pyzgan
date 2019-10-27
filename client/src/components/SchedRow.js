@@ -13,11 +13,11 @@ import RepeatingEvent from './RepeatingEvent';
 
 
 const SchedRow = (props) => {
+    const weekDays = moment.weekdays();
     const { command = {}, when = {}, date: ddate = {}, killItem, index, selected, selectItem, which, setItem} = props;
 
     const [date, setDate] = useState(moment(ddate).isValid() ? moment(ddate) : moment());
-    const [event, setEvent] = useState({command});
-
+    const [event, setEvent] = useState((which === 'scheduled')? {command, when} : {command, date});
 
     const DateTrigger = () => {
       return(
@@ -29,11 +29,10 @@ const SchedRow = (props) => {
 
     const RepeatEventTrigger = () => {
         const {when = {}} = event;
-        const {time = {}, day = moment.weekdays()[0]} = when;
-        const {hour, minute} = time;
+        const {hour, minute, dayOfWeek = 0} = when;
         return(
             <button className="date-close tight">
-                Every {day}, @ {hour}:{minute}
+                Every {weekDays[dayOfWeek]}, @ {hour}:{minute}
             </button>
         );
     };
@@ -63,20 +62,20 @@ const SchedRow = (props) => {
         }
 
         vals.forEach(o=> e.command[o.key] = o.value);
+
+        if (which !== 'oneTime') {
+            delete e.date;
+        }
+
         setEvent(e);
         setItem(which, event, index);
     };
 
-    const RepeatingClick = (vals) => {
+    const RepeatingClick = (val) => {
         const e = {
             ...event,
+            when: val,
         };
-
-        if (!e.when){
-            e.when = {};
-        }
-
-        vals.forEach(o=> e.when[o.key] = o.value);
         setEvent(e);
     };
 
