@@ -3,10 +3,10 @@ Make my electra mazgan (air conditioner) work with my pi
 
 Yup, another repository that tries to get an electra air conditioner to work.
 A/C Screen
-![A/C Screen](https://user-images.githubusercontent.com/617757/67712433-a21d8900-f9cc-11e9-8de6-baafae7ec241.png)
+![ac-small](https://user-images.githubusercontent.com/617757/67712624-050f2000-f9cd-11e9-99cd-1475d0ed9711.jpg)
 
 Schedule Screen
-![Schedule Screen](https://user-images.githubusercontent.com/617757/67711385-8fa25000-f9ca-11e9-9d86-0ab8886126b7.png?s=200)
+![sched-small](https://user-images.githubusercontent.com/617757/67712754-40115380-f9cd-11e9-81f1-aef5d008dd82.jpg)
 
 
 Prerequisites:
