@@ -90,13 +90,13 @@ app.use((error, req, res, next) => {
 app.get('/get-status', (req, res) => {
     fs.readFile("remoteState.json", function (err, data) {
         if(err) {
-            callback(err);
+            console.log(err);
             return;
         }
         try {
             return res.json(JSON.parse(data))
         } catch(exception) {
-            callback(exception);
+            console.log(exception);
         }
     });
 });
