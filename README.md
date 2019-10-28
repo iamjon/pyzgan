@@ -1,11 +1,12 @@
 # pyzgan
 Make my electra mazgan (air conditioner) work with my pi
 
-Yup, another repository that tries to get an electra air conditioner to work.
-A/C Screen
+Yup, another electra air conditioner repository.
+
+
 ![ac-small](https://user-images.githubusercontent.com/617757/67712624-050f2000-f9cd-11e9-99cd-1475d0ed9711.jpg)
 
-Schedule Screen
+
 ![sched-small](https://user-images.githubusercontent.com/617757/67712754-40115380-f9cd-11e9-81f1-aef5d008dd82.jpg)
 
 
