@@ -6,8 +6,12 @@ import { setTemperature } from '../api';
 import TempControl from './TempControl';
 
 const RemoteControl = ({power:dpower, temp:dtemp, fan:dfan, mode:dmode}) => {
+    let defaultTemp = (dtemp > 30) ? 30 : dtemp;
+    if (defaultTemp < 17) {
+        defaultTemp = 17;
+    }
     const [power, setPower] = useState(dpower);
-    const [temp, setTemp] = useState(dtemp);
+    const [temp, setTemp] = useState(defaultTemp);
     const [fan, setFan] = useState(dfan);
     // cool heat fan
     const [mode, setMode] = useState(dmode);
@@ -34,10 +38,14 @@ const RemoteControl = ({power:dpower, temp:dtemp, fan:dfan, mode:dmode}) => {
 
     const clickTemp = (direction) => {
         allowFire();
-        if (direction === 'up'){
+        if (direction === 'up' && (temp + 1) <= 30) {
             return setTemp(temp + 1);
         }
-        return setTemp(temp - 1);
+
+        if (direction === 'down' && (temp - 1) >= 17) {
+            return setTemp(temp - 1);
+        }
+
     };
 
     useEffect(() => {

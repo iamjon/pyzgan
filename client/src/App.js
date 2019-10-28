@@ -10,7 +10,7 @@ import { RemoteStatusContext } from './helpers/RemoteStatusContext';
 
 const App = () => {
     // viewMode is ac or schedule
-    const [viewMode, setViewMode] = useState('schedule');
+    const [viewMode, setViewMode] = useState('ac');
     const [remoteStatus, setRemoteStatus] = useState({});
     const [remoteSchedule, setRemoteSchedule] = useState({});
 

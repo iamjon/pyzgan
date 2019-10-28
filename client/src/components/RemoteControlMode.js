@@ -6,7 +6,7 @@ import { faCircle as faRegularCircle } from '@fortawesome/free-regular-svg-icons
 const RemoteControlMode = (props) => {
     const { mode, click } = props;
     const coolColor = '#9EEFFB';
-    const fanColor = '#EFF99D';
+    //const fanColor = '#EFF99D';
     const heatColor = '#FF797F';
 
     return (
@@ -15,13 +15,13 @@ const RemoteControlMode = (props) => {
                 {mode === 'cool' && (
                     <span className="fa-layers fa-fw">
                         <FontAwesomeIcon icon={faRegularCircle} color={coolColor}/>
-                        <FontAwesomeIcon icon={faCircle} color={coolColor} transform="shrink-7"/>
+                        <FontAwesomeIcon icon={faCircle} color={coolColor} transform="shrink-6"/>
                     </span>
 
                 )}
 
                 {mode !== 'cool' && (
-                    <FontAwesomeIcon icon={faCircle} color={coolColor} />
+                    <FontAwesomeIcon icon={faRegularCircle} color={coolColor} />
                 )}
             </button>
             <button className={`btn tight`} onClick={() => click('heat')}>
@@ -34,19 +34,6 @@ const RemoteControlMode = (props) => {
                 )}
                 {mode !== 'heat' && (
                     <FontAwesomeIcon icon={faRegularCircle} color={heatColor}/>
-                )}
-            </button>
-            <button className={`btn tight`} onClick={() => click('fan')}>
-                {mode === 'fan' && (
-                    <span className="fa-layers fa-fw">
-                        <FontAwesomeIcon icon={faRegularCircle} color={fanColor}/>
-                        <FontAwesomeIcon icon={faCircle} color={fanColor} transform="shrink-6"/>
-                    </span>
-
-                )}
-                {mode !== 'fan' && (
-                    <FontAwesomeIcon icon={faRegularCircle} color={fanColor}/>
-
                 )}
             </button>
         </div>
